@@ -1,0 +1,396 @@
+<html>
+  <head>
+<link rel="stylesheet" href="//code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.css">
+  <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="//code.jquery.com/mobile/1.5.0-alpha.1/jquery.mobile-1.5.0-alpha.1.min.js"></script>
+    <link rel="stylesheet" href="Beertapp.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  </head>
+  <body>
+    <!-- logo -->
+<div id="logo" class="box-white top" style="position: absolute">
+  <div align="middle">
+    <div style="z-index: 1;" class="shape">
+      <div class="glass1"></div>
+      <div class="glass2"></div>
+      <div class="glasstop"></div>
+      <div class="foam1"></div>
+      <div class="foam2"></div>
+      <div class="foambody"></div>
+    </div>
+    <h1>The BeertAPP</h1>
+    <h3>Together Responsible</h3>
+  </div>
+</div>
+
+<div data-role="page" id="body" class="container-fluid">
+
+  <!--- menu balk -->
+  <div class="row box">
+
+    <div class="btn col-xs-1">
+      <button onclick="openNav()" class="width-button btn glyphicon glyphicon-align-justify" style="background-color: #54FF9F; color: white"></button>
+    </div>
+
+    <div>
+      <div class="btn">
+        <h4 id="mainPageHead" class="white text-middel">Home</h4>
+      </div>
+
+      <div class="btn">
+      </div>
+
+      <div class="btn">
+      </div>
+
+    </div>
+  </div>
+
+  
+  <!-- Main Page -->
+  <div id="mainPage" style="display; position: absolute; width: 100%;">
+
+
+    <!-- Drankjes / plaatjes input -->
+    <div align="middle">
+      <div id ="warning" style = "width: 70%; margin-top: 100px; background-color: rgba(00,00,00,0.8); z-index: 69; border-radius:20px; left:15%; position: absolute; "> 
+  <div style="color: white; width: 80%;">
+    <h2>Warning</h2>
+    <t style="margin-bottom: 100px;" id="warningText">Before being able to use this app, please select the Personal ID menu to fill in your personal information. Swipe right or click on the upper-left corner button.</t> <br>
+    <button onclick="hideWarning()" class="btn" style="margin-bottom: 10px; margin-top: 10px; color: white; background-color: rgba(00,00,00,0.2); border: 2px solid #FFFFFF;">I understand</button>   
+    </div>
+</div>
+      
+      <div class="btn dropdown">
+        <a id="Beer">
+              <div class="dropdown-content" >
+    <a class="btn" onclick="AddToList() + volumeBeer50()">50 cL</a>
+    <a class="btn" onclick="AddToList() + volumeBeer33()">33 cL</a>
+    <a class="btn" onclick="AddToList() + volumeBeer20()">20 cL</a>
+  </div>
+            <img src="https://www.emojibase.com/resources/img/emojis/apple/x1f37a.png.pagespeed.ic.BvtGLK8p4U.png" class="image">
+        </a>
+        <p>Beer</p>
+      </div>
+
+      <div class="btn">
+        <a id="Wine">
+          <div onclick="Wine() + AddToList()">
+            <img src="https://www.emojibase.com/resources/img/emojis/apple/x1f377.png.pagespeed.ic.Y4pP3pJvP7.png" class="image">
+          </div>
+        </a>
+        <p>Wine</p>
+      </div>
+
+
+      <div class="btn">
+        <a id="Cocktail">
+          <div onclick="Cocktail() + AddToList()">
+            <img src="http://emojipop.net/data/images/emoji_set_483.png" class="imageCocktail">
+          </div>
+        </a>
+        <p>Cocktail</p>
+      </div>
+
+      <div class="btn">
+        <a id="Shot">
+          <div onclick="Shot() + AddToList()">
+            <img src="http://thebuzzbug.com/wp-content/uploads/2015/06/cocktail-glass.png" style="width: 60px">
+          </div>
+        </a>
+        <p>Shot</p>
+      </div>
+    </div>
+
+    <div align="middle">
+
+
+      <!-- fysieke lijst van drankjes -->
+      <div class="btn greyBox220">List of drinks:
+        <div id="listOfDrinks" style=" width:200px;overflow:scroll"></div>
+
+        <div id="totalSumDrinks" style="display;">
+          <p>Total amount of drinks: <span id="sumDrinks"></span></p>
+        </div>
+        <div id="zeroDrinks" style="display:none;">
+          <p>Total amount of drinks: 0</p>
+        </div>
+      </div>
+
+
+      <div align="middle">
+
+        <!-- formula alcohol promillage -->
+        <div class="btn greyBoxSmall" style="height: 70px; margin-top: 10px;">
+          <div style="display;" id="showFormula">
+            <p>BAC: </br><span id="formula"></span> ‰</div>
+          <div id="formulaZero" style="display:none;">
+            <p>BAC: </br>
+              <p>0 ‰</p>
+          </div>
+        </div>
+
+        <!-- formula time till sober -->
+        <div class="btn greyBoxSmall" style="height: 70px; margin-top: 10px;">
+          <div style="display;" id="showTimeTillSober">
+            <p>Time till sober: </br><span id="timeTillSoberHours"></span> hour(s) <br> <span id="timeTillSoberMinutes"></span> minute(s)</div>
+          <div id="timeTillSoberZero" style="display:none;">
+            <p>Time till sober: </br>
+              <p> --- hour </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- formula time till able to drive -->
+      <div id="ableToDrive" style="display:none; height: 60px" class="greyBox220">
+        <div style="display;" id="showTimeTillDrive">
+          <p>Time till allowed to drive: </br><span id="timeTillDriveHours"></span> hour(s) <br> <span id="timeTillDriveMinutes"></span> minute(s)</div>
+        <div id="timeTillDriveZero" style="display:none;">
+          <p>Time till allowed to drive: </br>
+            <p> --- hour </p>
+        </div>
+      </div>
+    </div>
+
+    <div align="middle">
+
+      <!-- colored circle -->
+      <div class="stopSign shadow" style="margin-top: 10px;">
+        <input type="radio" id="redCircle" name="stopSign" checked/>
+        <label for="redCircle" class="green" style="width: 20px;
+	height: 20px;
+  margin-top: 10px;
+	border-radius: 50px;
+  display: inline-block;
+  margin-right: 5px;
+  transition: all 200ms ease-in;"></label>
+
+        <input type="radio" id="yellowCircle" name="stopSign" />
+        <label for="yellowCircle" class="yellow" style="width: 20px;
+	height: 20px;
+  margin-top: 10px;
+	border-radius: 50px;
+  display: inline-block;
+  margin-right: 5px;
+  transition: all 200ms ease-in;"></label>
+
+        <input type="radio" id="greenCircle" name="stopSign" />
+        <label for="greenCircle" class="red" style="width: 20px;
+	height: 20px;
+  margin-top: 10px;
+	border-radius: 50px;
+  display: inline-block;
+  transition: all 200ms ease-in;"></label>
+      </div>
+
+      <!-- Reset button -->
+      <button class="btn btn-danger shadow" onclick="myReset() + resetCount()">Reset</button>
+    </div>
+  </div>
+
+
+
+  <!-- Personal Id Page -->
+  <div id="idPage" style="display:none; width: 100%; position: absolute;">
+
+    <div align="middle">
+
+      <!-- personal information -->
+      <h4>Fill in your personal information</h4>
+
+      <!-- name -->
+      <form>
+        <h5>Name: <input type="text" placeholder="e.g. BoB" id="Name" onchange="getInfoName()">
+  </form>
+
+  <!-- Gender --> 
+  <h5>Gender<span class="redletter">*</span>: 
+      <select class="btn" id="Gender" onchange="getInfoGender()">
+    <option value="0">---</option>
+    <option value="0.55">Woman</option>
+    <option value="0.68">Man</option>
+  </select>
+      </h5>
+
+        <!-- age -->
+        <div>
+          <h5>Age <span class = "redletter">*</span>:
+      <input type="number" id="Age" onchange="getInfoAge()" placeholder="e.g. 25" requiered style="width: 100px; "></input>  years</h5>
+        </div>
+
+        <!-- weight -->
+        <h5>Weight<span class="redletter">*</span>:
+      <input type="number" id="Weight" onchange="getInfoWeight()" placeholder="e.g. 71" requiered style="width: 100px;"></input>  kilograms</h5>
+
+        <!-- nationality -->
+        <h5>Nationality<span class="redletter">*</span>: 
+      <select onchange="getInfoNationality()" id="Nationality" class="btn">
+    <option value="---">---</option>    
+    <option value="0.17">The Netherlands</option> <!-- dit klopt nog niet -->
+  </select>
+      </h5>
+    
+ <!-- height -->
+<h5>Height<span class="redletter">*</span>:
+<input type="number" id="height" onchange="getInfoHeight()" placeholder="e.g. 180" requiered style="width: 100px;"></input>  centimeters</h5>
+
+<!-- type of drinker -->
+  <h5>Type of drinker<span class="redletter">*</span>: 
+      <select onchange="getInfoDrinkType()" id="drinkType" class="btn">
+    <option value="---">---</option>    
+    <option value="0.125"> Moderate drinker (empty stomach) </option>
+    <option value = "0.175"> Moderate drinker (after a meal)
+    <option value = "0.20"> Binge drinker
+    <option value ="0.275"> Chronic alcoholic
+  </select>
+      </h5>
+
+        <!--  drivers license -->
+        <h5>Do you own a drivers license<span class="redletter">*</span>:
+<select  id="driversLicense" class="btn" onchange="howLongdriverLicense()">
+  <option value="---">---</option> 
+  <option id="yes"> Yes</option>
+  <option id="no"> No</option>
+  </select>  </h5>
+
+        <!-- time license -->
+        <div id="timeLicense" style="display:none;">
+          <h5>For how long do you own it<span class="redletter">*</span>:
+  <select class="btn" id="timeSinceLicense" onchange="getInfoHowLong()">
+    <option value="---">---</option>
+    <option value="0.54">longer than 5 years</option>
+    <option value="0.2">shorter than 5 years</option>
+  </select>
+        </div>
+      
+  <!-- statement required -->
+  <h5 class="font-size"><span class="redletter">*</span>Means that the feeld is required.</h5>
+
+          <!-- Save Button -->
+          <button class="btn glyphicon glyphicon-save btn-danger shadow" onclick="ShowSaved() + myReset() + resetCount()"> Save</button>
+      </form>
+      </div>
+
+      <!-- wel gesaved -->
+      <div id="hasBeenSaved" style="display:none;" align="middle">
+        <h5 class="greenletter glyphicon glyphicon-ok">  Your information has been saved
+        </div>
+
+  <!-- niet gesaved -->
+<div id="hasNotBeenSaved" style="display:none;" align="middle"> <h5 class="redletter glyphicon glyphicon-remove">  You have not filled in all the required spaces
+        </div> 
+  </div>
+
+ <!-- Info Page -->
+<div id="infoPage" style="display:none; width: 100%; position: absolute;" align="middle"> 
+
+<!-- About us -->
+<div style="margin-right:30px;">  
+<h4>About us</h4>
+  <h5>We, the beertappers are four enthousiastic students from the middle of The Netherlands. If you have any tips to improve our app, please contact <span class="blue"><ins>Beer@tappers.com</ins></span>.</h5>
+  <h4>Categories</h4>
+        <h5>All beers have an average percentage of alcohol of 5%. Wines have 12% of alcohol and are consumed per 10 cL. Shots are baverages such as rum, vodka, cognac, whiskey and liquors. They have on agerage 35% alcohol in 5 cL glasses. Lastly Cocktails who are all other baverages. They contain 5.6% alcohol in 27.5 cL glasses.</h5>
+        <h4>About our app</h4>
+        <h5>We wanted to create an app to improve people's awairness considering consuming alcohol and drunk driving. Although we did excessive research on calculating the blood alcohol content (BAC), we cannot guarantee that the determined BAC value is accurate. We are therefore in no way responsible for any action you take upon the information in this app, using it is at your own risk. </h5>
+      </div>
+
+      <!-- rate System -->
+      <div align="middle"  style="margin-right:30px;">
+        <h5 style="margin-top: 40px;">We are still adapting our app. Please, do rate our app so we can improve your experience.</h5>
+
+        <input type="checkbox" id="star1" name="ratingStars" onchange="changeStar1()" />
+        <label for="star1" class="yellowStar" style="
+  font-size: 300%;
+  margin-top: 10px;
+  margin-right: 5px;
+  transition: all 200ms ease-in;">&starf;</label>
+
+        <input type="checkbox" id="star2" name="ratingStars" onchange="changeStar2()" />
+        <label for="star2" class="yellowStar" style="
+  font-size: 300%;
+  margin-top: 10px;
+  margin-right: 5px;
+  transition: all 200ms ease-in;">&starf;</label>
+
+        <input type="checkbox" id="star3" name="ratingStars" onchange="changeStar3()" />
+        <label for="star3" class="yellowStar" style=" 
+  font-size: 300%;
+  margin-top: 10px;
+  transition: all 200ms ease-in;">&starf;</label>
+
+        <input type="checkbox" id="star4" name="ratingStars" onchange="changeStar4()" />
+        <label for="star4" class="yellowStar" style=" 
+  font-size: 300%;
+  margin-top: 10px;
+  transition: all 200ms ease-in;">&starf;</label>
+
+        <input type="checkbox" id="star5" name="ratingStars" onchange="changeStar5()" />
+        <label for="star5" class="yellowStar" style=" 
+  font-size: 300%;
+  margin-top: 10px;
+  transition: all 200ms ease-in;">&starf;</label>
+
+        <p id="rate"></p>
+        <button onclick="sendRating()" class="btn shadow" style="background-color: #54FF9F; color: white;">Send</button>
+        <p id="messageRating" style="color: green; margin-top: 20px"></p>
+      </div>
+    </div>
+
+    <!-- Menu Dots-->
+    <div align="middle" style="position: absolute; width: 100%; margin-top: 600px;">
+      <input type="radio" id="dot1" name="menuDots" checked/>
+      <label for="dot1" class="dot" style="width: 6px;
+	height: 6px;
+  margin-top: 10px;
+	border-radius: 50px;
+  display: inline-block;
+  margin-right: 5px;
+  transition: all 200ms ease-in;"></label>
+
+      <input type="radio" id="dot2" name="menuDots" />
+      <label for="dot2" class="dot" style="width: 6px;
+	height: 6px;
+  margin-top: 10px;
+	border-radius: 50px;
+  display: inline-block;
+  margin-right: 5px;
+  transition: all 200ms ease-in;"></label>
+
+      <input type="radio" id="dot3" name="menuDots" />
+      <label for="dot3" class="dot" style="width: 6px;
+	height: 6px;
+  margin-top: 10px;
+	border-radius: 50px;
+  display: inline-block;
+  transition: all 200ms ease-in;"></label>
+    </div>
+
+    <!-- The overlay / Menu -->
+    <div id="myNav" class="overlay">
+
+      <!-- Button to close the overlay navigation -->
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+      <!-- Overlay content -->
+      <div class="overlay-content">
+        <a class="glyphicon glyphicon-glass" onclick="ShowMainPage() + closeNav()">  Home</a>
+        <a class="glyphicon glyphicon-user" onclick="ShowIdPage() + closeNav()"> Personal ID</a>
+        <a class="glyphicon glyphicon-info-sign" onclick="ShowInfoPage() + closeNav()"> More Info</a>
+      </div>
+    </div>
+
+
+  </div>
+  <!-- einde container fluid-->
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+
+
+    <script type="text/javascript" src="Beertapp.js"></script>
+  </body>
+</html>
